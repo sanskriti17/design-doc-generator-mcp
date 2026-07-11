@@ -2,7 +2,8 @@
 
 # Design Doc Generator
 
-**Turn the work you just did in Claude Code into a professional design doc — one command, zero writing.**
+**One command in Claude Code. A polished design doc — Markdown, plus optional HTML — saved straight into your
+repo.**
 
 [![npm version](https://img.shields.io/npm/v/design-doc-generator-mcp?color=cb3837&label=npm)](https://www.npmjs.com/package/design-doc-generator-mcp)
 [![node](https://img.shields.io/node/v/design-doc-generator-mcp)](https://www.npmjs.com/package/design-doc-generator-mcp)
@@ -29,16 +30,19 @@
 
 ## What you get
 
-A **Markdown file**, saved straight into your project at `docs/<title>.md` — plus, if you ask for it, a
-polished **standalone HTML version** (light/dark, sticky navigation) you can open in any browser or share with
-someone who doesn't use Markdown. Every doc includes:
+| Output | Where |
+| --- | --- |
+| Markdown file | `docs/<title>.md` in your project |
+| Interactive HTML (optional) | Same folder, `--html` flag — light/dark theme, sticky nav |
 
-- Abstract, problem statement, architecture and flow diagrams, key decisions and trade-offs, risks — sections
-  that don't apply are left out entirely, not padded
+Every doc includes:
+
+- Abstract, problem statement, architecture and flow diagrams, key decisions and trade-offs, risks — irrelevant
+  sections are dropped, never padded
 - At least two Mermaid diagrams wherever the session supports them: a static architecture view and a runtime
   sequence view, sized and styled automatically
 - An auto-inserted table of contents
-- Two more doc shapes, detected automatically: a root-cause / bug-investigation report, and a comparison doc for
+- Two more doc shapes, detected automatically: a root-cause/bug-investigation report, and a comparison doc for
   "which approach" decisions
 
 ## How it works
@@ -51,8 +55,8 @@ someone who doesn't use Markdown. Every doc includes:
 npx design-doc-generator-mcp init
 ```
 
-Run this once, inside the project you want to document. It registers the MCP server and installs the
-`/design-doc` skill. Restart Claude Code, do real work, then run:
+Run once, inside the project you want to document — registers the MCP server and installs the `/design-doc`
+skill. Restart Claude Code, do real work, then run:
 
 ```
 /design-doc
@@ -71,13 +75,13 @@ Running it again on the same topic updates the same file — it never creates a 
 
 ## Your code never leaves your machine
 
-This tool never reads your source files and never calls an LLM itself. It only reads lightweight git metadata —
-your branch, `git status`, a `git diff --stat` summary, and your last 15 commit messages — and Claude drafts the
-document inside your own session, on your own account.
+This tool never reads your source files. It never calls an LLM itself. It only reads lightweight git metadata —
+branch, `git status`, a `git diff --stat` summary, your last 15 commit messages. Claude drafts the document
+inside your own session, on your own account.
 
-The only two things that ever reach a network: a request for the section template when drafting (a mode string,
-plus your license key if you've activated one), and your license key itself when you run `--activate`. Pro
-status is always verified against that key server-side — never assumed from anything the client claims.
+Two things ever reach a network: the section template request when drafting (a mode string, plus your license
+key if you've activated one), and your license key itself when you run `--activate`. Pro status is always
+verified against that key server-side, never assumed from anything the client claims.
 
 ## Free vs. Pro
 
