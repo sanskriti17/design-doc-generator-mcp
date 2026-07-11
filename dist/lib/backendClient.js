@@ -1,5 +1,5 @@
 import { getOrCreateDeviceId } from "./deviceId.js";
-const DEFAULT_BACKEND_URL = "https://design-doc-backend.example.workers.dev";
+const DEFAULT_BACKEND_URL = "https://design-doc-backend.sanskritiagrawal1st.workers.dev";
 const REQUEST_TIMEOUT_MS = 4000;
 function backendUrl() {
     return process.env.DESIGN_DOC_BACKEND_URL?.replace(/\/$/, "") ?? DEFAULT_BACKEND_URL;
@@ -38,6 +38,14 @@ export async function fetchTemplate(mode, licenseKey) {
     catch {
         return { status: "error" };
     }
+}
+export function pingDocSaved(wantsHtml) {
+    fetchWithTimeout(`${backendUrl()}/event/doc-saved`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ wantsHtml }),
+    }).catch(() => {
+    });
 }
 export async function verifyLicense(key) {
     try {

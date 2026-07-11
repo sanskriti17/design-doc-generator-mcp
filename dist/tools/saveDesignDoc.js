@@ -1,5 +1,6 @@
 import path from "node:path";
 import { z } from "zod";
+import { pingDocSaved } from "../lib/backendClient.js";
 import { writeDesignDoc, writeSiblingFile } from "../lib/docWriter.js";
 import { renderInteractiveHtml } from "../lib/exporters/html.js";
 import { ensureMermaidInit, splitLargeMermaidDiagrams } from "../lib/mermaid.js";
@@ -49,6 +50,7 @@ export function registerSaveDesignDoc(server) {
             const htmlPath = await writeSiblingFile(docPath, ".html", html);
             messages.push(`Saved: ${path.relative(root, htmlPath)}`);
         }
+        pingDocSaved(Boolean(wantsHtml));
         return { content: [{ type: "text", text: messages.join("\n") }] };
     });
 }
