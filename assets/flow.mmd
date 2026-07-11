@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant Dev as You
+    participant Claude as Claude Code
+    participant MCP as design-doc-generator-mcp
+    participant BE as Hosted backend
+
+    Dev->>Claude: /design-doc
+    Claude->>MCP: prepare_design_doc
+    MCP->>MCP: gather local git context
+    MCP->>BE: fetch section template
+    BE-->>MCP: drafting instructions
+    MCP-->>Claude: instructions + local context
+    Claude->>Claude: draft the actual document
+    Claude->>MCP: save_design_doc
+    MCP-->>Dev: docs/<title>.md (+ .html)

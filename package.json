@@ -1,9 +1,14 @@
 {
   "name": "design-doc-generator-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local MCP server for the Design Doc Generator - drafts and saves technical design docs from inside a Claude Code session, using your own Claude account. Your code never leaves your machine.",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanskriti17/design-doc-generator-mcp.git"
+  },
+  "homepage": "https://github.com/sanskriti17/design-doc-generator-mcp#readme",
   "engines": {
     "node": ">=18"
   },
@@ -13,7 +18,8 @@
   "files": [
     "dist",
     "bin",
-    "skill"
+    "skill",
+    "assets"
   ],
   "scripts": {
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
