@@ -7,7 +7,7 @@ import { getEffectiveTier } from "../lib/license.js";
 import { ensureMermaidInit, splitLargeMermaidDiagrams } from "../lib/mermaid.js";
 import { defaultDesignDocFilename } from "../lib/slug.js";
 import { insertTableOfContents } from "../lib/toc.js";
-const PRO_FOOTER = "\n\n---\nFree tier: 5 docs/day. Want unlimited? Get Pro -> https://gum.co/design-doc-pro";
+const PRO_FOOTER = "\n\n---\nFree tier: 5 docs/day. Want unlimited? Get Pro -> https://sanskriti57.gumroad.com/l/zaopwk";
 export function registerSaveDesignDoc(server) {
     server.registerTool("save_design_doc", {
         title: "Save Design Doc",
