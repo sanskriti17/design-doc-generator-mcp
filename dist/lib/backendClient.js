@@ -39,12 +39,8 @@ export async function fetchTemplate(mode, licenseKey) {
         return { status: "error" };
     }
 }
-export function pingDocSaved(wantsHtml) {
-    fetchWithTimeout(`${backendUrl()}/event/doc-saved`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ wantsHtml }),
-    }).catch(() => {
+export function pingDocSaved() {
+    fetchWithTimeout(`${backendUrl()}/event/doc-saved`, { method: "POST" }).catch(() => {
     });
 }
 export async function verifyLicense(key) {

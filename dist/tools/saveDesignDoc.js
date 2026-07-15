@@ -11,9 +11,9 @@ export function registerSaveDesignDoc(server) {
         title: "Save Design Doc",
         description: "Call this once with the finished markdown you drafted from prepare_design_doc's instructions. Writes " +
             "docs/<title-slug>.md (adding a table of contents, splitting any oversized Mermaid diagrams, and " +
-            "applying consistent diagram styling), and optionally a beautified interactive HTML export - both " +
-            "available on the free tier. Re-running this for the same topic overwrites/updates the same file by " +
-            "design, rather than creating a new one each time.",
+            "applying consistent diagram styling) plus a beautified interactive HTML export alongside it - both " +
+            "always included, both available on the free tier. Re-running this for the same topic overwrites/updates " +
+            "the same files by design, rather than creating new ones each time.",
         inputSchema: {
             markdown: z.string().min(1).describe("The complete, finished design doc as markdown."),
             title: z
@@ -21,18 +21,16 @@ export function registerSaveDesignDoc(server) {
                 .optional()
                 .describe("Document title. Defaults to the first H1 in the markdown. Used for the HTML export's <title> and " +
                 "to build the default filename (docs/<title-slug>.md) when outputRelativePath isn't given."),
-            wantsHtml: z.boolean().optional().describe("True if the user asked for a standalone interactive HTML export."),
             outputRelativePath: z
                 .string()
                 .optional()
                 .describe("Relative path under docs/ to write to. Defaults to docs/<title-slug>.md."),
             projectRoot: z.string().optional().describe("Absolute path to the project root. Defaults to the server's cwd."),
         },
-    }, async ({ markdown, title, wantsHtml, outputRelativePath, projectRoot }) => {
+    }, async ({ markdown, title, outputRelativePath, projectRoot }) => {
         const root = projectRoot ?? process.cwd();
         const processed = ensureMermaidInit(splitLargeMermaidDiagrams(insertTableOfContents(markdown)));
         const docTitle = title ?? processed.match(/^#\s+(.*)$/m)?.[1] ?? "Design Doc";
-        const messages = [];
         let docResult;
         try {
             docResult = await writeDesignDoc(root, processed, outputRelativePath ?? defaultDesignDocFilename(docTitle));
@@ -44,13 +42,11 @@ export function registerSaveDesignDoc(server) {
             };
         }
         const docPath = docResult.path;
-        messages.push(`${docResult.updated ? "Updated" : "Saved"}: ${path.relative(root, docPath)}`);
-        if (wantsHtml) {
-            const html = renderInteractiveHtml(processed, docTitle);
-            const htmlPath = await writeSiblingFile(docPath, ".html", html);
-            messages.push(`Saved: ${path.relative(root, htmlPath)}`);
-        }
-        pingDocSaved(Boolean(wantsHtml));
-        return { content: [{ type: "text", text: messages.join("\n") }] };
+        const html = renderInteractiveHtml(processed, docTitle);
+        const htmlPath = await writeSiblingFile(docPath, ".html", html);
+        pingDocSaved();
+        const verb = docResult.updated ? "Updated" : "Saved";
+        const text = `${verb} your design doc:\n\`${path.relative(root, docPath)}\`\n\`${path.relative(root, htmlPath)}\``;
+        return { content: [{ type: "text", text }] };
     });
 }

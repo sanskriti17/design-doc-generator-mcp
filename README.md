@@ -2,8 +2,7 @@
 
 # Design Doc Generator
 
-**One command in Claude Code. A polished design doc — Markdown, plus optional HTML — saved straight into your
-repo.**
+**One command in Claude Code. A polished design doc — Markdown and HTML, both saved straight into your repo.**
 
 [![npm version](https://img.shields.io/npm/v/design-doc-generator-mcp?color=cb3837&label=npm)](https://www.npmjs.com/package/design-doc-generator-mcp)
 [![node](https://img.shields.io/node/v/design-doc-generator-mcp)](https://www.npmjs.com/package/design-doc-generator-mcp)
@@ -33,7 +32,9 @@ repo.**
 | Output | Where |
 | --- | --- |
 | Markdown file | `docs/<title>.md` in your project |
-| Interactive HTML (optional) | Same folder, `--html` flag — light/dark theme, sticky nav |
+| Interactive HTML | Same folder, `docs/<title>.html` — light/dark theme, sticky nav |
+
+Both are always saved, every time — nothing to opt into.
 
 Every doc includes:
 
@@ -67,11 +68,10 @@ skill. Restart Claude Code, do real work, then run:
 | Flag | What it does |
 | --- | --- |
 | *(none)* | Drafts the default design doc for whatever was just discussed |
-| `--html` | Also saves a standalone interactive HTML version |
 | `--activate YOUR-KEY` | Activates a Pro license key |
 | `--help` | Shows usage help |
 
-Running it again on the same topic updates the same file — it never creates a duplicate.
+Running it again on the same topic updates the same files — it never creates a duplicate.
 
 ## Your code never leaves your machine
 

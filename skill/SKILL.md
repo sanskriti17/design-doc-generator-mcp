@@ -1,6 +1,6 @@
 ---
 name: design-doc
-description: Generate a technical design doc (problem statement, approach, architecture diagram, trade-offs, open questions) from the real technical work done in this session, and save it into the project. Use when the user runs /design-doc, with optional flags --html, --activate KEY, or --help.
+description: Generate a technical design doc (problem statement, approach, architecture diagram, trade-offs, open questions) from the real technical work done in this session, and save it into the project as Markdown and HTML. Use when the user runs /design-doc, with optional flags --activate KEY or --help.
 ---
 
 # /design-doc
@@ -14,16 +14,15 @@ If the tools aren't registered, tell the user to run `npx design-doc-generator-m
 ## Step 1 - parse the invocation
 
 Recognize, in the trailing text: `--help` (go to Help, stop, no tool call), `--activate <KEY>` (go to
-Activation), `--html` (also wants a standalone HTML export). Otherwise infer `mode` from context - "root
-cause"/"investigate"/"debug" → `root-cause`; "compare"/"which approach"/"options" → `comparison`; else
-`default`.
+Activation). Otherwise infer `mode` from context - "root cause"/"investigate"/"debug" → `root-cause`;
+"compare"/"which approach"/"options" → `comparison`; else `default`.
 
 ## Help (only if `--help`)
 
-Summarize, don't quote verbatim: turns session work into a saved doc, no copy-pasting. Flags: `--html` (also
-saves an interactive HTML version), `--activate YOUR-KEY`, `--help`. Saved to `docs/<title>.md` (re-running it
-updates that file). Free tier has a daily generation cap; Pro removes it - that's the only difference. Run cold
-with nothing done yet this session? Ask what to document instead of refusing (see Step 2).
+Summarize, don't quote verbatim: turns session work into a saved doc, no copy-pasting. Flags: `--activate
+YOUR-KEY`, `--help`. Always saves both `docs/<title>.md` and a standalone interactive HTML version alongside it
+(re-running it updates both files). Free tier has a daily generation cap; Pro removes it - that's the only
+difference. Run cold with nothing done yet this session? Ask what to document instead of refusing (see Step 2).
 
 ## Step 2 - sanity check
 
@@ -63,5 +62,7 @@ Write the markdown yourself, exactly as the tool's returned instructions specify
 
 ## Step 6 - save
 
-Call `save_design_doc` with `markdown` and `wantsHtml` (from Step 1). Tell the user warmly where it saved and
-what's in it - don't reprint the document or the tool's raw output.
+Call `save_design_doc` with `markdown` (from Step 5) - it always saves both the Markdown and HTML versions.
+Relay its returned message to the user exactly as returned: it already puts each file's path on its own line in
+backticks with nothing else attached, so it stays clickable - don't fold the paths into your own sentence, don't
+paraphrase them, and don't reprint the document itself.
