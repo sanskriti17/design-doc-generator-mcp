@@ -30,7 +30,8 @@ with nothing done yet this session? Ask what to document instead of refusing (se
 Proceed directly if real work already happened earlier this session - that's the source, skip to Step 4.
 
 If run cold (nothing substantial discussed yet), don't invent content and don't just refuse - use
-AskUserQuestion with exactly these choices:
+AskUserQuestion with the question "What should this doc be based on?" (header: "Doc source") and exactly these
+choices:
 - **This session's discussion** - draft from whatever's actually been discussed so far, even if thin
 - **This repo** - explore it yourself (README, structure, manifest, recent git log, key source files) and
   document its current state
