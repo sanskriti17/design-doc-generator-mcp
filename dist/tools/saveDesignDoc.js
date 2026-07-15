@@ -3,9 +3,11 @@ import { z } from "zod";
 import { pingDocSaved } from "../lib/backendClient.js";
 import { writeDesignDoc, writeSiblingFile } from "../lib/docWriter.js";
 import { renderInteractiveHtml } from "../lib/exporters/html.js";
+import { getEffectiveTier } from "../lib/license.js";
 import { ensureMermaidInit, splitLargeMermaidDiagrams } from "../lib/mermaid.js";
 import { defaultDesignDocFilename } from "../lib/slug.js";
 import { insertTableOfContents } from "../lib/toc.js";
+const PRO_FOOTER = "\n\n---\nFree tier: 5 docs/day. Want unlimited? Get Pro -> https://gum.co/design-doc-pro";
 export function registerSaveDesignDoc(server) {
     server.registerTool("save_design_doc", {
         title: "Save Design Doc",
@@ -45,8 +47,17 @@ export function registerSaveDesignDoc(server) {
         const html = renderInteractiveHtml(processed, docTitle);
         const htmlPath = await writeSiblingFile(docPath, ".html", html);
         pingDocSaved();
-        const verb = docResult.updated ? "Updated" : "Saved";
-        const text = `${verb} your design doc:\n\`${path.relative(root, docPath)}\`\n\`${path.relative(root, htmlPath)}\``;
+        const tier = await getEffectiveTier();
+        const verb = docResult.updated ? "updated" : "ready";
+        const htmlLine = docResult.updated
+            ? "The interactive HTML version is refreshed too:"
+            : "Want the polished, interactive version? It's ready too - light/dark theme, sticky navigation, ready to share:";
+        const footer = tier === "free" ? PRO_FOOTER : "";
+        const text = `Your design doc is ${verb}! \u{1F389}\n\n` +
+            `\`${path.relative(root, docPath)}\`\n\n` +
+            `${htmlLine}\n\n` +
+            `\`${path.relative(root, htmlPath)}\`` +
+            footer;
         return { content: [{ type: "text", text }] };
     });
 }
