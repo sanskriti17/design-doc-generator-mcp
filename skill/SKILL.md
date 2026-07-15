@@ -23,15 +23,23 @@ cause"/"investigate"/"debug" → `root-cause`; "compare"/"which approach"/"optio
 Summarize, don't quote verbatim: turns session work into a saved doc, no copy-pasting. Flags: `--html` (also
 saves an interactive HTML version), `--activate YOUR-KEY`, `--help`. Saved to `docs/<title>.md` (re-running it
 updates that file). Free tier has a daily generation cap; Pro removes it - that's the only difference. Run cold
-with nothing done yet this session? Offer to explore the repo and document what's there instead of refusing.
+with nothing done yet this session? Ask what to document instead of refusing (see Step 2).
 
 ## Step 2 - sanity check
 
-Proceed if real work already happened earlier this session. If run cold, don't invent content and don't just
-refuse either - offer: *"I can look through this repo/directory and write up what it currently does - want
-that?"* Decline → stop. Accept → explore the project first (README, structure, manifest, recent git log, key
-source files) and use that as the `sessionSummary` in Step 4. Expect sections like Key Decisions/Assumptions to
-end up mostly omitted, since you're describing existing work, not decisions made live - that's expected.
+Proceed directly if real work already happened earlier this session - that's the source, skip to Step 4.
+
+If run cold (nothing substantial discussed yet), don't invent content and don't just refuse - use
+AskUserQuestion with exactly these choices:
+- **This session's discussion** - draft from whatever's actually been discussed so far, even if thin
+- **This repo** - explore it yourself (README, structure, manifest, recent git log, key source files) and
+  document its current state
+- **Latest git commit** - run `git show HEAD` (or equivalent) yourself and document specifically what that
+  commit changed and why, from its diff and message
+
+Whichever is chosen becomes the `sessionSummary` in Step 4. For "This repo" or "Latest git commit," expect
+sections like Key Decisions/Assumptions to end up mostly omitted - describing existing work, not live decisions,
+is expected.
 
 ## Step 3 - Activation (only if `--activate`)
 
