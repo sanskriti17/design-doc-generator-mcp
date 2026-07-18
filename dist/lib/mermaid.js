@@ -63,8 +63,9 @@ export function countMermaidNodes(body) {
     return uniqueNodeIds(body).size;
 }
 const MERMAID_INIT_DIRECTIVE = "%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '16px'}, " +
-    "'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 40, 'rankSpacing': 60, 'curve': 'basis'}, " +
-    "'sequence': {'useMaxWidth': false, 'actorFontSize': 14, 'messageFontSize': 14, 'wrap': true}}}%%";
+    "'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 40, 'rankSpacing': 60, 'curve': 'basis'}, " +
+    "'sequence': {'useMaxWidth': true, 'actorFontSize': 14, 'messageFontSize': 14, 'wrap': true}, " +
+    "'er': {'useMaxWidth': true}}}%%";
 export function ensureMermaidInit(markdown) {
     return markdown.replace(MERMAID_FENCE, (fullMatch, body) => {
         if (/^\s*%%\{\s*init\b/.test(body))

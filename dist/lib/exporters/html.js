@@ -211,8 +211,9 @@ export function renderInteractiveHtml(markdown, title) {
     startOnLoad: true,
     theme: "neutral",
     themeVariables: { fontSize: "16px" },
-    flowchart: { htmlLabels: true, useMaxWidth: false, nodeSpacing: 40, rankSpacing: 60, curve: "basis" },
-    sequence: { useMaxWidth: false, actorFontSize: 14, messageFontSize: 14, wrap: true },
+    flowchart: { htmlLabels: true, useMaxWidth: true, nodeSpacing: 40, rankSpacing: 60, curve: "basis" },
+    sequence: { useMaxWidth: true, actorFontSize: 14, messageFontSize: 14, wrap: true },
+    er: { useMaxWidth: true },
   });
 </script>
 <style>
